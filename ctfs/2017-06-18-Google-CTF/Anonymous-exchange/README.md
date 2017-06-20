@@ -25,12 +25,20 @@ I tried using the commands to see how it works.
 ```sh
 NEWACC
 OK: Account uaccount0x1 created.
+```
+```sh
 NEWCARD
 OK: Card ucard0x1 created.
+```
+```sh
 ASSOC ucard0x1 uaccount0x1
 OK: Card ucard0x1 associated with account uaccount0x1.
+```
+```sh
 ASSOC ccard0x1 uaccount0x1
 OK: Card ccard0x1 associated with account uaccount0x1.
+```
+```sh
 BACKUP
 [{"account":"8c0b47580572db7b","cards":[{"card":"2f5f9d384de92ef8"},{"card":"068dc3795f105fed","flagged":"1"},{"card":"c1f65b722cff1649"}]},
 ...
