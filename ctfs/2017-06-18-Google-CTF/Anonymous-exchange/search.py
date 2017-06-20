@@ -20,7 +20,7 @@ g = dict()
 
 # get_chain(account_hash, card_hash) = the longest chain that we can pass through starting from this account and card.
 def get_chain(cur_account, cur_card):
-	# if cur_card has more than two accounts linked to it then it is not a ucard.
+	# if cur_card has more than two accounts linked to it then it is not a ucard or the last ucard in the chain so stop.
 	if len(rev_g[cur_card]) != 2:
 		# return a chain of length 1 containing the current account and current card.
 		return ([cur_account], [cur_card])
