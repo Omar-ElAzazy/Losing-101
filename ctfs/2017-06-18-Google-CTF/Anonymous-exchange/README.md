@@ -85,6 +85,8 @@ It turns out we can't link more than 3 account to a single card as well ...
 * I can create uaccounts and they will be added to the network.
 * I can create ucards and they will be added to the network.
 * I can associate ucards/ccards to uaccounts.
+* I can associate at most 3 cards to an account.
+* I can associate at most 3 accounts to a card.
 * I can get a backup for the network, but all the card and account names will be encrypted.
 * In the backup I can't identify cards and accounts.
 * I need to get which ccards are flagged.
