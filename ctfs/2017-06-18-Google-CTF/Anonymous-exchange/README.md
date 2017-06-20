@@ -1,4 +1,4 @@
-# Anonymous exchange
+# [Anonymous exchange](https://capturetheflag.withgoogle.com/challenges/)
 
 #### Getting to know the challenge
 
@@ -45,9 +45,9 @@ Wait, that's not right. I expected 100111101110011001011011001001111000101100110
 
 So, I can create new cards, new accounts, link cards to accounts and at the end get an encrypted backup of the whole network (Including more data than I created) and try to guess which from the ccards are flagged.
 
-After some trials I figured out that we can link at most 3 cards to a single account and that the extra data never has 300 extra accounts.
+After some trials I figured out that we can link at most 3 cards to a single account. 
 
-I thought about spamming the network with accounts, link ccard0x1 with 300 accounts, link ccard0x2 with 601 accounts and so on. This way the card that is linked to 300-600 accounts is ccard0x1 and I can check whether it is flagged or not, same goes for the rest of the ccards.
+I thought about spamming the network with accounts, link ccard0x1 with 300 accounts, link ccard0x2 with 601 accounts and so on. This way the card linked to between 300 and 600 accounts is ccard0x1, the card linked to between 601 and 900 accounts is ccard0x2 and so on. This way I identified the ccards in the network and I can check whether it is flagged or not.
 
 ```sh
 NEWACC
@@ -70,9 +70,22 @@ KO: Too many accounts already use this card.
 
 It turns out we can't link more than 3 account to a single card as well ...
 
+#### The challenge
+
+* There is a network of ccards and caccounts with some associations between them.
+* Some of the ccards are flagged.
+* I can create uaccounts and they will be added to the network.
+* I can create ucards and they will be added to the network.
+* I can associate ucards/ccards to uaccounts.
+* I can get a backup for the network, but all the card and account names will be encrypted.
+* In the backup I can't identify cards and accounts.
+* I need to get which ccards are flagged.
+
+I will be using the term "extra data", I mean by that the caccounts and the associations between caccounts and ccards.
+
 #### The solution
 
-I thought that to solve it, we need to link each ccard to a unique uaccount and to be able to identify those uaccounts.
+I thought that to solve it, we need to link each ccard to a unique uaccount and to be able to identify the uaccounts.
 
 So I started with creating 64 uaccounts and linking them to the ccards as shown in the figure below.
 
@@ -86,9 +99,12 @@ Now I have to be able to identify the uaccounts in the backup. To do that, I cre
   <img src="https://github.com/Omar-ElAzazy/Losing-101/raw/master/ctfs/2017-06-18-Google-CTF/Anonymous-exchange/graph2.png" />
 </p>
 
-The uaccounts and ucards subgraph is similar to a linked list (i.e. forming a chain) and it is probably longer than any other chain appearing in the extra data. So, all we had to do is search for that longest chain. Once we have the chain we can easily get the flags of ccard0x1 to ccard0x40.
+The uaccounts and ucards subgraph is similar to a linked list (i.e. forming a chain) and it is probably longer than any other chain appearing in the extra data. So, all we had to do is search for that longest chain (i.e. uaccount0x1 -> ucard0x1 -> uaccount0x2 -> ucard0x2 -> ... -> uaccount0x40 -> ucard0x40). 
+Once we have the chain we can easily get the flags of ccard0x1 to ccard0x40.
 
-To get uaccount0x1, it is simply the only uaccount in the chain that is linked to only 2 cards. To get ccard0x1, it is the card linked to uaccount0x1 that is not inside the chain. Then we start iterating on the accounts in the chain getting the flags of all the ccards.
+To get uaccount0x1, it is simply the only uaccount in the chain that is linked to only 2 cards. 
+
+To get ccard0x1, it is the card linked to uaccount0x1 that is not inside the chain. Then we start iterating over the accounts in the chain getting the flags of all the ccards.
 
 I used a bash script to generate the commands to the server.
 
